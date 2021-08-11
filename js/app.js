@@ -41,6 +41,7 @@ let rightImg = document.getElementById( 'rightimg' );
 let leftRandom = 0;
 let middleRandom = 0;
 let rightRandom = 0;
+ let clickDiv = document.getElementById( 'click' );
 function Item( name, imgsrc ) {
   this.name = name;
   this.imgpath = imgsrc;
@@ -58,15 +59,16 @@ console.log( Item.all );
 function run() {
   // eslint-disable-next-line no-undef
   leftRandom = getRandomNumber( 0, picArray.length - 1 );
- 
-do{ middleRandom = getRandomNumber( 0, picArray.length - 1 );
-  rightRandom = getRandomNumber( 0, picArray.length - 1 );
 
-}while (condition) {leftRandom === middleRandom || leftRandom === rightRandom || 
-  middleRandom === rightRandom || prevArray.includes(leftRandom) || prevArray.includes(middleRandom) || prevArray.includes(rightRandom)
+  do {
+    middleRandom = getRandomNumber( 0, picArray.length - 1 );
+    rightRandom = getRandomNumber( 0, picArray.length - 1 );
+
+  } while ( leftRandom === middleRandom || leftRandom === rightRandom ||
+    middleRandom === rightRandom || prevArray.includes( leftRandom ) || prevArray.includes( middleRandom ) || prevArray.includes( rightRandom ) );
+
   
-}
-prevArray = [leftRandom, middleRandom, rightRandom];
+  prevArray = [leftRandom, middleRandom, rightRandom];
 
 
   leftImg.src = './img/' + Item.all[leftRandom].imgpath;
@@ -81,93 +83,92 @@ prevArray = [leftRandom, middleRandom, rightRandom];
 run();
 imageCatalog.addEventListener( 'click', chooseCounter );
 function chooseCounter( Event ) {
-  if ( ( Event.target.id === 'leftimg' || Event.target.id === 'middleimg' || Event.target.id === 'rightimg' ) && counter < chooseNum )
-  { if ( Event.target.id === 'leftimg' ){
-    Item.all[leftRandom].click++;
-    if ( Event.target.id === 'middleimg' ){
-      Item.all[middleRandom].click++;
-      if ( Event.target.id === 'rightimg' ) {
-        Item.all[rightRandom].click++;
+  if ( ( Event.target.id === 'leftimg' || Event.target.id === 'middleimg' || Event.target.id === 'rightimg' ) && counter < chooseNum ) {
+    if ( Event.target.id === 'leftimg' ) {
+      Item.all[leftRandom].click++;
+      if ( Event.target.id === 'middleimg' ) {
+        Item.all[middleRandom].click++;
+        if ( Event.target.id === 'rightimg' ) {
+          Item.all[rightRandom].click++;
+        }
       }
     }
-  }
     run();
     counter++;
   }
-  //function removeHandler() {
-    //document.getElementById("myDIV").removeEventListener("mousemove", myFunction);
-  //}
+
   console.log( Event );
 }
 function getRandomNumber( min, max ) {
   let random;
   let allowed;
-  do{
-   random = Math.floor( Math.random() * ( max - min + 1 ) + min );
-   allowed = true;
+  do {
+    random = Math.floor( Math.random() * ( max - min + 1 ) + min );
+    allowed = true;
 
-   for (let i = 0; i < prevArray.length; i++ ){
-     if( random === prevArray[i]){
-       allowed = false;
-     }
-   }
-  } while (!allowed) {
-    
+    for ( let i = 0; i < prevArray.length; i++ ) {
+      if ( random === prevArray[i] ) {
+        allowed = false;
+      }
+    }
+  } while ( !allowed ); {
+
   }
   return random;
 }
 result.addEventListener( 'click', viewResult );
-function viewResult(){
-  if (counter < chooseNum) {
-    
-  }
-  const ul = document.createElement('ul')
-  clickDiv
-  for ( let i=0; i < Item.all.length; i++ ){
-  let li = document.createElement( 'li' )
-li.textContent = `${Item.all[i].name} had ${Item.all[i].click} votes, and was seen ${Item.all[i].disply} times`
-ul.appendChild( li )}
-creatChart();
-}
-if (counter >= chooseNum ){
-  imageCatalog.removeEventListener('click', chooseCounter);
-}
-function creatChart (){
-let names = [];
-let votes = [];
-let clicks = [];
+function viewResult() {
+  if ( counter < chooseNum ) {
 
-for(let i = 0 < Item.all.length; i++);
-names.push(Item.all[0].name)
-votes.push(Item.all[0].disply)
-clicks.push(Item.all[0].click)
-  var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
+  const ul = document.createElement( 'ul' );
+
+  clickDiv.appendChild( ul );
+  for ( let i = 0; i < Item.all.length; i++ ) {
+    let li = document.createElement( 'li' );
+    li.textContent = `${Item.all[i].name} had ${Item.all[i].click} votes, and was seen ${Item.all[i].disply} times`;
+    ul.appendChild( li );
+  }
+  creatChart();
+}
+}
+if ( counter >= chooseNum ) {
+imageCatalog.removeEventListener( 'click', chooseCounter );}
+
+
+ function creatChart() {
+  let names = [];
+  let votes = [];
+  let clicks = [];
+  for ( let i = 0; i < Item.all.length; i++ ) {
+    names.push( Item.all[i].name );
+    votes.push( Item.all[i].disply );
+    clicks.push( Item.all[i].click );}
+  var ctx = document.getElementById( 'myChart' ).getContext( '2d' );
+  var myChart = new Chart( ctx, {
     type: 'bar',
     data: {
-        labels: names,
-        datasets: [{
-            label: '# of Votes',
-            data: votes,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        },
-        {
-          label: '# of clicks',
-          data: clicks,
-          backgroundColor: 'rgba(222, 90, 120, 0.2)',
-          borderColor: 'rgba(233, 80, 120, 1)',
-          borderWidth: 1
+      labels: names,
+      datasets: [{
+        label: '# of Votes',
+        data: votes,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      },
+      {
+        label: '# of clicks',
+        data: clicks,
+        backgroundColor: 'rgba(222, 90, 120, 0.2)',
+        borderColor: 'rgba(233, 80, 120, 1)',
+        borderWidth: 1
       }]
     },
     options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
+      scales: {
+        y: {
+          beginAtZero: true
         }
+      }
     }
-});
-</script>
+  } );
 }
