@@ -42,6 +42,7 @@ let leftRandom = 0;
 let middleRandom = 0;
 let rightRandom = 0;
  let clickDiv = document.getElementById( 'click' );
+  let localStorage.data = JSON.stringify(picArray)
 function Item( name, imgsrc ) {
   this.name = name;
   this.imgpath = imgsrc;
@@ -172,3 +173,17 @@ imageCatalog.removeEventListener( 'click', chooseCounter );}
     }
   } );
 }
+function getData() {
+  if (localStorage.data){
+let data = JSON.parse(localStorage.data[i]);
+for (let i = 0; i < data.length; i++) {
+  new imgConstructor(data[i].split('.')[0],data[i]);
+  
+}
+  }else {
+    for (let i = 0; i < picArray.length; i++) {
+   new imgConstructor(picArray[i].split('.')[0], picArray[i]);
+    
+  }
+  
+}}
