@@ -41,8 +41,9 @@ let rightImg = document.getElementById( 'rightimg' );
 let leftRandom = 0;
 let middleRandom = 0;
 let rightRandom = 0;
- let clickDiv = document.getElementById( 'click' );
-  let localStorage.data = JSON.stringify(picArray)
+let clickDiv = document.getElementById( 'click' );
+// eslint-disable-next-line no-unused-vars
+//let arrayString = JSON.stringify( Item.all );
 function Item( name, imgsrc ) {
   this.name = name;
   this.imgpath = imgsrc;
@@ -66,9 +67,9 @@ function run() {
     rightRandom = getRandomNumber( 0, picArray.length - 1 );
 
   } while ( leftRandom === middleRandom || leftRandom === rightRandom ||
-    middleRandom === rightRandom || prevArray.includes( leftRandom ) || prevArray.includes( middleRandom ) || prevArray.includes( rightRandom ) );
+  middleRandom === rightRandom || prevArray.includes( leftRandom ) || prevArray.includes( middleRandom ) || prevArray.includes( rightRandom ) );
 
-  
+
   prevArray = [leftRandom, middleRandom, rightRandom];
 
 
@@ -121,29 +122,31 @@ result.addEventListener( 'click', viewResult );
 function viewResult() {
   if ( counter < chooseNum ) {
 
-  const ul = document.createElement( 'ul' );
+    const ul = document.createElement( 'ul' );
 
-  clickDiv.appendChild( ul );
-  for ( let i = 0; i < Item.all.length; i++ ) {
-    let li = document.createElement( 'li' );
-    li.textContent = `${Item.all[i].name} had ${Item.all[i].click} votes, and was seen ${Item.all[i].disply} times`;
-    ul.appendChild( li );
+    clickDiv.appendChild( ul );
+    for ( let i = 0; i < Item.all.length; i++ ) {
+      let li = document.createElement( 'li' );
+      li.textContent = `${Item.all[i].name} had ${Item.all[i].click} votes, and was seen ${Item.all[i].disply} times`;
+      ul.appendChild( li );
+    }
+    creatChart();
   }
-  creatChart();
-}
 }
 if ( counter >= chooseNum ) {
-imageCatalog.removeEventListener( 'click', chooseCounter );}
+  imageCatalog.removeEventListener( 'click', chooseCounter );
+}
 
 
- function creatChart() {
+function creatChart() {
   let names = [];
   let votes = [];
   let clicks = [];
   for ( let i = 0; i < Item.all.length; i++ ) {
     names.push( Item.all[i].name );
     votes.push( Item.all[i].disply );
-    clicks.push( Item.all[i].click );}
+    clicks.push( Item.all[i].click );
+  }
   var ctx = document.getElementById( 'myChart' ).getContext( '2d' );
   var myChart = new Chart( ctx, {
     type: 'bar',
@@ -173,17 +176,19 @@ imageCatalog.removeEventListener( 'click', chooseCounter );}
     }
   } );
 }
-function getData() {
-  if (localStorage.data){
-let data = JSON.parse(localStorage.data[i]);
-for (let i = 0; i < data.length; i++) {
-  new imgConstructor(data[i].split('.')[0],data[i]);
-  
-}
-  }else {
-    for (let i = 0; i < picArray.length; i++) {
-   new imgConstructor(picArray[i].split('.')[0], picArray[i]);
-    
-  }
-  
-}}
+// function getData() {
+//   if ( localStorage.data ) {
+//     let data = JSON.parse( localStorage.data[i] );
+//     for ( let i = 0; i < data.length; i++ ) {
+//       new imgConstructor( data[i].split( '.' )[0], data[i] );
+
+//     }
+//   } else {
+//     for ( let i = 0; i < picArray.length; i++ ) {
+//       new imgConstructor( Item.all[i].split( '.' )[0], picArray[i] );
+
+//     }
+
+//   }
+// }
+// getData();
