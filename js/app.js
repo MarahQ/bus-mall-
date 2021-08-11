@@ -30,6 +30,7 @@ let picArray = [
 // prototype render
 // get by id
 // Event Handler
+let prevArray = [];
 const imageCatalog = document.getElementById( 'imageCatalog' );
 let result = document.getElementById( 'result' );
 let counter = 0;
@@ -57,8 +58,17 @@ console.log( Item.all );
 function run() {
   // eslint-disable-next-line no-undef
   leftRandom = getRandomNumber( 0, picArray.length - 1 );
-  middleRandom = getRandomNumber( 0, picArray.length - 1 );
+ 
+do{ middleRandom = getRandomNumber( 0, picArray.length - 1 );
   rightRandom = getRandomNumber( 0, picArray.length - 1 );
+
+}while (condition) {leftRandom === middleRandom || leftRandom === rightRandom || 
+  middleRandom === rightRandom || prevArray.includes(leftRandom) || prevArray.includes(middleRandom) || prevArray.includes(rightRandom)
+  
+}
+prevArray = [leftRandom, middleRandom, rightRandom];
+
+
   leftImg.src = './img/' + Item.all[leftRandom].imgpath;
   middleImg.src = './img/' + Item.all[middleRandom].imgpath;
   rightImg.src = './img/' + Item.all[rightRandom].imgpath;
@@ -90,17 +100,74 @@ function chooseCounter( Event ) {
   console.log( Event );
 }
 function getRandomNumber( min, max ) {
-  return Math.floor( Math.random() * ( max - min + 1 ) + min );
+  let random;
+  let allowed;
+  do{
+   random = Math.floor( Math.random() * ( max - min + 1 ) + min );
+   allowed = true;
+
+   for (let i = 0; i < prevArray.length; i++ ){
+     if( random === prevArray[i]){
+       allowed = false;
+     }
+   }
+  } while (!allowed) {
+    
+  }
+  return random;
 }
 result.addEventListener( 'click', viewResult );
 function viewResult(){
+  if (counter < chooseNum) {
+    
+  }
   const ul = document.createElement('ul')
   clickDiv
-  for ( let i=0; i < Item.all.length; i++ )
+  for ( let i=0; i < Item.all.length; i++ ){
   let li = document.createElement( 'li' )
 li.textContent = `${Item.all[i].name} had ${Item.all[i].click} votes, and was seen ${Item.all[i].disply} times`
-ul.appendChild( li )
+ul.appendChild( li )}
+creatChart();
 }
 if (counter >= chooseNum ){
   imageCatalog.removeEventListener('click', chooseCounter);
+}
+function creatChart (){
+let names = [];
+let votes = [];
+let clicks = [];
+
+for(let i = 0 < Item.all.length; i++);
+names.push(Item.all[0].name)
+votes.push(Item.all[0].disply)
+clicks.push(Item.all[0].click)
+  var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: names,
+        datasets: [{
+            label: '# of Votes',
+            data: votes,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        },
+        {
+          label: '# of clicks',
+          data: clicks,
+          backgroundColor: 'rgba(222, 90, 120, 0.2)',
+          borderColor: 'rgba(233, 80, 120, 1)',
+          borderWidth: 1
+      }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
 }
